@@ -101,13 +101,14 @@
   (with-playground
    (let ((dd default-directory)
          (td-was nil))
-     (f-with-temp-directory
-      td
-      (setq td-was td)
-      (f-mkdir "foo")
-      (f-touch "foo/bar.txt")
-      (f-touch "bar.txt")
-      (error "Oops"))
+     (should-error
+      (f-with-temp-directory
+       td
+       (setq td-was td)
+       (f-mkdir "foo")
+       (f-touch "foo/bar.txt")
+       (f-touch "bar.txt")
+       (error "Oops")))
      (should-not-exist td-was)
      (should (equal dd default-directory)))))
 

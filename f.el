@@ -315,14 +315,15 @@ If FORCE is t, a directory will be deleted recursively."
         (delete-file path)
       (delete-directory path force))))
 
-(defmacro f-with-temp-directory (tdir &optional prefix &rest body)
+(defmacro f-with-temp-directory (tdir &rest body)
   "Cleate temp directory bound to TDIR and execute BODY.
 
 Temp directory name is prefixed with PREFIX"
-  `(let ((,tdir (make-temp-file (or ,prefix "f-tmpdir") t)))
-    (unwind-protect
-        (progn ,@body))
-    (delete-directory ,tdir t)))
+  `(letrec ((,tdir (make-temp-file "f-tmpdir" t))
+         (default-directory ,tdir))
+     (unwind-protect
+         (progn ,@body)
+       (delete-directory ,tdir t))))
 
 (defun f-symlink (source path)
   "Create a symlink to SOURCE from PATH."
