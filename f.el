@@ -316,9 +316,7 @@ If FORCE is t, a directory will be deleted recursively."
       (delete-directory path force))))
 
 (defmacro f-with-temp-directory (tdir &rest body)
-  "Cleate temp directory bound to TDIR and execute BODY.
-
-Temp directory name is prefixed with PREFIX"
+  "Cleate temp directory bound to TDIR and execute BODY."
   `(letrec ((,tdir (make-temp-file "f-tmpdir" t))
          (default-directory ,tdir))
      (unwind-protect
